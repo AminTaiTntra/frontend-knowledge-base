@@ -49,7 +49,8 @@ function App() {
               content: "The recommended approach using compound components pattern. This provides better composition, flexibility, and separation of concerns for building reusable UI components.",
               user: { id: 3, name: "Amin Tai" }
             }}
-          >
+          > 
+            
             <PostCardComponent.Id />
             <div className='p-6'>
               <PostCardComponent.Title />
