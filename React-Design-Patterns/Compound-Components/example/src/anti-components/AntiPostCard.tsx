@@ -32,7 +32,7 @@ export default function AntiPostCard({ post }: Props) {
           {!post.isOnProfilePage && <p className="text-xs text-gray-600 font-medium mb-6">By <span className="font-semibold text-black">{post.user.name}</span></p>}
 
           <div className="flex gap-3">
-            <button className="flex-1 bg-black text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-800 transition-colors duration-200">
+            <button className="flex-1 bg-black text-white px-4 py-2 rounded-md font-medium hover:bg-gray-800 transition-colors duration-200">
               Read More
             </button>
             <button className="flex-1 border-2 border-black text-black px-4 py-2 rounded-md font-medium hover:bg-gray-100 transition-colors duration-200">
