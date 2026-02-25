@@ -64,7 +64,7 @@ Example:
 ## What Code Splitting Improves?
 - Faster initial load
 - Better performance
-- Reduced bundle size
+- Reduced initial bundle size
 - Better user experience
 - Optimized network usage
 
@@ -243,15 +243,6 @@ Example:
 const Editor = lazy(() => import("./Editor"))
 ```
 Loads only when needed.
-
-### How It Works Internally
-
-Lazy loading uses dynamic import:
-```jsx
-import("./Dashboard")
-```
-
-Any bundlers like Webpack detects this and creates separate chunk file automatically.
 
 ## Before vs After Comparison
 | Without Code Splitting | With Code Splitting |
