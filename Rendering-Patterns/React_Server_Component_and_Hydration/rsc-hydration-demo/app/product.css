@@ -1,0 +1,46 @@
+.product-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+}
+
+.product-btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.product-btn:hover {
+  background-color: burlywood;
+  transform: translateY(-1px);
+}
+
+.hydration-status {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+/* Before hydration */
+.not-hydrated {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  border: 1px solid #fca5a5;
+}
+
+/* After hydration */
+.hydrated {
+  color: #166534;
+  background-color: #dcfce7;
+  border: 1px solid #86efac;
+}
