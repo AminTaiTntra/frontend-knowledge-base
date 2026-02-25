@@ -1,5 +1,5 @@
 # React Code Splitting and Lazy Loading
-## Problem Statement
+
 When we build a React application, all components are combined into a single JavaScript bundle file
 ```jsx 
 bundle.js (2 MB)
