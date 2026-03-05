@@ -4,8 +4,6 @@
 // import Home from "./pages/Home";
 // import Dashboard from "./pages/Dashboard";
 
-
-
 // export default function App() {
 //   return (
 //     <>
@@ -14,7 +12,6 @@
 //         <Link to="/">Home</Link> |
 //         <Link to="/dashboard">Dashboard</Link>
 //       </nav>
-    
 
 //       <Routes>
 //         <Route path="/" element={<Home />} />

@@ -1,10 +1,23 @@
+import { useState, } from "react";
 import HeavyChart from "../components/HeavyChart";
 
 export default function Dashboard() {
+  const [show, setShow] = useState(false);
+
   return (
-    <div>
+    <>
       <h1>Dashboard</h1>
-      <HeavyChart />
-    </div>
+
+      <button onClick={() => setShow(true)}>
+        Load Chart
+      </button>
+        <button onClick={() => setShow(false)}>
+        Hide Chart
+      </button>
+      {show && (
+          <HeavyChart />
+
+      )}
+    </>
   );
 }

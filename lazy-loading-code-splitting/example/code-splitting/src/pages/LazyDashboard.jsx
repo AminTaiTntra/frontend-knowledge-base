@@ -10,10 +10,8 @@ export default function Dashboard() {
     <>
       <h1>Dashboard</h1>
 
-      <button onClick={() => setShow(true)}>
-        Load Chart
-      </button>
-
+      <button onClick={() => setShow(true)}>Load Chart</button>
+      <button onClick={() => setShow(false)}>Hide Chart</button>
       {show && (
         <Suspense fallback={<h3>Loading Chart...</h3>}>
           <HeavyChart />
