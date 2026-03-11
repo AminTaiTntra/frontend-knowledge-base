@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prefetch: Slow vs Instant Navigation</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav">
+        <a href="../1-preload/index.html">← Prev: Preload</a>
+        <h1>Prefetch: Slow vs Instant Navigation</h1>
+        <a href="../3-intersection-observer/index.html">Next: Intersection Observer →</a>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            <div class="intro-section">
+                <h2>Prefetch Makes Navigation Instant</h2>
+                <p>See how prefetching pages on hover makes navigation feel instant. Hover over cards, then click to see the difference!</p>
+            </div>
+
+            <div class="comparison-layout">
+                <!-- WITHOUT PREFETCH - Slow Navigation -->
+                <div class="demo-section slow-section">
+                    <div class="section-header slow-header">
+                        <h3>❌ Without Prefetch (Slow)</h3>
+                        <p>Pages load when you click - causes delays</p>
+                        <div class="performance-badge slow-badge">
+                            <span>Navigation: </span>
+                            <span id="slow-nav-speed" class="performance-value">Slow</span>
+                        </div>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="label">Prefetched:</span>
+                            <span id="slow-prefetched" class="value slow-value">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Click Time:</span>
+                            <span id="slow-click-time" class="value">0ms</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Cache Hits:</span>
+                            <span id="slow-cache-hits" class="value">0</span>
+                        </div>
+                    </div>
+
+                    <div class="demo-container" id="slow-container">
+                        <div class="demo-hint slow-hint">
+                            <span>👆 Hover then click cards - notice the delay</span>
+                        </div>
+
+                        <div class="navigation-grid">
+                            <div class="nav-card slow-card" data-page="about">
+                                <div class="nav-icon">📖</div>
+                                <h4>About Page</h4>
+                                <p>Learn about our company</p>
+                                <div class="prefetch-status">
+                                    <span class="status-dot slow-dot"></span>
+                                    <span>No prefetch</span>
+                                </div>
+                                <button class="nav-button">Click to Visit</button>
+                            </div>
+
+                            <div class="nav-card slow-card" data-page="products">
+                                <div class="nav-icon">🛍️</div>
+                                <h4>Products Page</h4>
+                                <p>Browse our products</p>
+                                <div class="prefetch-status">
+                                    <span class="status-dot slow-dot"></span>
+                                    <span>No prefetch</span>
+                                </div>
+                                <button class="nav-button">Click to Visit</button>
+                            </div>
+
+                            <div class="nav-card slow-card" data-page="contact">
+                                <div class="nav-icon">📞</div>
+                                <h4>Contact Page</h4>
+                                <p>Get in touch with us</p>
+                                <div class="prefetch-status">
+                                    <span class="status-dot slow-dot"></span>
+                                    <span>No prefetch</span>
+                                </div>
+                                <button class="nav-button">Click to Visit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="performance-log-container">
+                        <h4>What's Happening (Slow)</h4>
+                        <div id="slow-log" class="performance-log">
+                            <div class="log-entry">❌ No prefetch: Pages load only when clicked</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WITH PREFETCH - Fast Navigation -->
+                <div class="demo-section fast-section">
+                    <div class="section-header fast-header">
+                        <h3>✅ With Prefetch (Instant)</h3>
+                        <p>Pages load on hover - instant clicks</p>
+                        <div class="performance-badge fast-badge">
+                            <span>Navigation: </span>
+                            <span id="fast-nav-speed" class="performance-value">Instant</span>
+                        </div>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="label">Prefetched:</span>
+                            <span id="fast-prefetched" class="value fast-value">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Click Time:</span>
+                            <span id="fast-click-time" class="value">0ms</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Cache Hits:</span>
+                            <span id="fast-cache-hits" class="value">0</span>
+                        </div>
+                    </div>
+
+                    <div class="demo-container" id="fast-container">
+                        <div class="demo-hint fast-hint">
+                            <span>👆 Hover cards to prefetch, then click for instant navigation</span>
+                        </div>
+
+                        <div class="navigation-grid">
+                            <div class="nav-card fast-card prefetchable" data-page="about">
+                                <div class="nav-icon">📖</div>
+                                <h4>About Page</h4>
+                                <p>Learn about our company</p>
+                                <div class="prefetch-status">
+                                    <span class="status-dot fast-dot"></span>
+                                    <span>Hover to prefetch</span>
+                                </div>
+                                <button class="nav-button">Click to Visit</button>
+                            </div>
+
+                            <div class="nav-card fast-card prefetchable" data-page="products">
+                                <div class="nav-icon">🛍️</div>
+                                <h4>Products Page</h4>
+                                <p>Browse our products</p>
+                                <div class="prefetch-status">
+                                    <span class="status-dot fast-dot"></span>
+                                    <span>Hover to prefetch</span>
+                                </div>
+                                <button class="nav-button">Click to Visit</button>
+                            </div>
+
+                            <div class="nav-card fast-card prefetchable" data-page="contact">
+                                <div class="nav-icon">📞</div>
+                                <h4>Contact Page</h4>
+                                <p>Get in touch with us</p>
+                                <div class="prefetch-status">
+                                    <span class="status-dot fast-dot"></span>
+                                    <span>Hover to prefetch</span>
+                                </div>
+                                <button class="nav-button">Click to Visit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="performance-log-container">
+                        <h4>What's Happening (Fast)</h4>
+                        <div id="fast-log" class="performance-log">
+                            <div class="log-entry">✅ Prefetch ready: Hover cards to preload pages</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h3>📊 Prefetch Benefits</h3>
+                <div class="summary-comparison">
+                    <div class="summary-slow">
+                        <h4>❌ Without Prefetch Problems</h4>
+                        <ul>
+                            <li>User clicks and waits</li>
+                            <li>Server request starts on click</li>
+                            <li>Network delay every time</li>
+                            <li>Slow, frustrating navigation</li>
+                            <li>Higher bounce rates</li>
+                        </ul>
+                    </div>
+                    <div class="summary-fast">
+                        <h4>✅ With Prefetch Benefits</h4>
+                        <ul>
+                            <li>Pages load on hover</li>
+                            <li>Instant clicks from cache</li>
+                            <li>No network delays</li>
+                            <li>Smooth, fast navigation</li>
+                            <li>Better user experience</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="code-example">
+                    <h4>💡 How to Use Prefetch</h4>
+                    <pre><code>&lt;!-- Add to &lt;head&gt; or via JavaScript --&gt;
+&lt;link rel="prefetch" href="/about.html"&gt;
+&lt;link rel="prefetch" href="/products.html"&gt;
+
+&lt;!-- Or with JavaScript --&gt;
+const link = document.createElement('link');
+link.rel = 'prefetch';
+link.href = '/page.html';
+document.head.appendChild(link);</code></pre>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for simulated page navigation -->
+    <div id="page-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Page Title</h2>
+                <button id="modal-close" class="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-content">Loading...</div>
+                <div class="load-time">
+                    Load time: <span id="modal-load-time">0ms</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
