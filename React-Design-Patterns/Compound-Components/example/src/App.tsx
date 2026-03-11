@@ -1,3 +1,4 @@
+import { Button } from '@tntra-unify-ui/antd'
 import AntiPostCard from './anti-components/AntiPostCard'
 import PostCardComponent from './componets/PostCardComponent'
 
@@ -7,6 +8,9 @@ function App() {
       <div className="text-center mb-12">
         <h1 className="text-5xl font-bold text-black mb-2 text-center">Compound Components</h1>
       </div>
+
+      <Button label='Click Me' onClick={() => alert('Hello')}></Button>
+      <Button type='text' label='Type Link' onClick={() => alert('Hello')}></Button>
 
       <div className="w-full max-w-4xl flex gap-6">
         <div className="w-full max-w-md">
