@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Optimization Session</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .demo-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1f2937;
+            text-align: center;
+        }
+
+        .demo-description {
+            color: #6b7280;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .demo-features li {
+            padding: 0.5rem 0;
+            color: #374151;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .demo-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .definition {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .definition h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .definition p {
+            font-size: 0.85rem;
+            color: #4b5563;
+            line-height: 1.4;
+        }
+
+        .code-snippet {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .code-snippet .comment {
+            color: #9ca3af;
+        }
+
+        .code-snippet .keyword {
+            color: #60a5fa;
+        }
+
+        .code-snippet .string {
+            color: #34d399;
+        }
+
+        .use-cases {
+            margin: 1rem 0;
+        }
+
+        .use-cases h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .use-case-list li {
+            padding: 0.3rem 0;
+            color: #4b5563;
+            font-size: 0.8rem;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .use-case-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #6b7280;
+        }
+
+        .diagram {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+            border: 2px dashed #e5e7eb;
+        }
+
+        .diagram-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #4b5563;
+        }
+
+        .diagram-step {
+            background: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-weight: 500;
+        }
+
+        .diagram-arrow {
+            color: #3b82f6;
+            font-weight: bold;
+        }
+
+        .diagram-preload {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        }
+
+        .diagram-prefetch {
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+        }
+
+        .diagram-observer {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+        }
+
+        .diagram-combined {
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+        }
+
+        .performance-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .beginner {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .intermediate {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .advanced {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: 2rem;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Performance Optimization</h1>
+            <p>Learn preload, prefetch, and Intersection Observer with hands-on examples</p>
+        </div>
+
+        <div class="demo-grid">
+            <a href="./demos/1-preload/index.html" class="demo-card">
+                <div class="demo-icon">⚡</div>
+                <div class="difficulty beginner">Beginner</div>
+                <div class="demo-title">1. Preload Demo</div>
+                <div class="demo-description">Learn how to preload critical resources for faster page loads</div>
+                
+                <div class="diagram diagram-preload">
+                    <div class="diagram-flow">
+                        <div class="diagram-step">HTML Parse</div>
+                        <div class="diagram-arrow">→</div>
+                        <div class="diagram-step">⚡ Preload</div>
+                        <div class="diagram-arrow">→</div>
+                        <div class="diagram-step">Fast Render</div>
+                    </div>
+                    <div class="performance-indicator">
+                        <span>📈</span> 40% Faster Loading
+                    </div>
+                </div>
+                
+                <div class="definition">
+                    <h4>What is Preload?</h4>
+                    <p>Preload tells the browser to fetch critical resources immediately, ensuring important assets load as early as possible in the page lifecycle.</p>
+                </div>
+
+                <div class="code-snippet">
+<span class="comment"><!-- Critical CSS --></span>
+<span class="keyword">&lt;link</span> <span class="string">rel="preload"</span> <span class="string">href="critical.css"</span> <span class="string">as="style"</span><span class="keyword">&gt;</span>
+
+<span class="comment"><!-- Hero image --></span>
+<span class="keyword">&lt;link</span> <span class="string">rel="preload"</span> <span class="string">href="hero.jpg"</span> <span class="string">as="image"</span><span class="keyword">&gt;</span>
+                </div>
+
+                <div class="use-cases">
+                    <h4>Perfect for:</h4>
+                    <ul class="use-case-list">
+                        <li>Above-the-fold images</li>
+                        <li>Critical CSS files</li>
+                        <li>Web fonts</li>
+                        <li>Hero banners</li>
+                    </ul>
+                </div>
+
+                <ul class="demo-features">
+                    <li>40% faster initial load</li>
+                    <li>Before/After comparison</li>
+                    <li>Real performance metrics</li>
+                    <li>Production examples</li>
+                </ul>
+            </a>
+
+            <a href="./demos/2-prefetch/index.html" class="demo-card">
+                <div class="demo-icon">🔮</div>
+                <div class="difficulty beginner">Beginner</div>
+                <div class="demo-title">2. Prefetch Demo</div>
+                <div class="demo-description">Prefetch resources for future navigation</div>
+                
+                <div class="diagram diagram-prefetch">
+                    <div class="diagram-flow">
+                        <div class="diagram-step">User Hover</div>
+                        <div class="diagram-arrow">→</div>
+                        <div class="diagram-step">🔮 Prefetch</div>
+                        <div class="diagram-arrow">→</div>
+                        <div class="diagram-step">Instant Click</div>
+                    </div>
+                    <div class="performance-indicator">
+                        <span>⚡</span> 70% Faster Navigation
+                    </div>
+                </div>
+                
+                <div class="definition">
+                    <h4>What is Prefetch?</h4>
+                    <p>Prefetch downloads resources that users will likely need next, during browser idle time, making future interactions instant.</p>
+                </div>
+
+                <div class="code-snippet">
+<span class="comment"><!-- Next page --></span>
+<span class="keyword">&lt;link</span> <span class="string">rel="prefetch"</span> <span class="string">href="/products.html"</span><span class="keyword">&gt;</span>
+
+<span class="comment">// Smart hover prefetch</span>
+link.addEventListener(<span class="string">'mouseenter'</span>, () => {
+  prefetchPage(link.href);
+});
+                </div>
+
+                <div class="use-cases">
+                    <h4>Perfect for:</h4>
+                    <ul class="use-case-list">
+                        <li>Next page in workflow</li>
+                        <li>Popular product pages</li>
+                        <li>User dashboard</li>
+                        <li>Search results</li>
+                    </ul>
+                </div>
+
+                <ul class="demo-features">
+                    <li>70% faster navigation</li>
+                    <li>Hover-based prefetching</li>
+                    <li>Smart predictions</li>
+                    <li>Network optimization</li>
+                </ul>
+            </a>
+
+            <a href="./demos/3-intersection-observer/index.html" class="demo-card">
+                <div class="demo-icon">📍</div>
+                <div class="difficulty intermediate">Intermediate</div>
+                <div class="demo-title">3. Intersection Observer</div>
+                <div class="demo-description">Efficient viewport-based loading and animations</div>
+                
+                <div class="diagram diagram-observer">
+                    <div class="diagram-flow">
+                        <div class="diagram-step">Scroll Down</div>
+                        <div class="diagram-arrow">→</div>
+                        <div class="diagram-step">📍 Observe</div>
+                        <div class="diagram-arrow">→</div>
+                        <div class="diagram-step">Load Image</div>
+                    </div>
+                    <div class="performance-indicator">
+                        <span>🚀</span> 90% Less CPU Usage
+                    </div>
+                </div>
+                
+                <div class="definition">
+                    <h4>What is Intersection Observer?</h4>
+                    <p>A modern API that efficiently detects when elements enter the viewport, replacing expensive scroll event listeners.</p>
+                </div>
+
+                <div class="code-snippet">
+<span class="comment">// Create observer</span>
+<span class="keyword">const</span> observer = <span class="keyword">new</span> IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    <span class="keyword">if</span> (entry.isIntersecting) {
+      loadImage(entry.target);
+    }
+  });
+});
+                </div>
+
+                <div class="use-cases">
+                    <h4>Perfect for:</h4>
+                    <ul class="use-case-list">
+                        <li>Lazy loading images</li>
+                        <li>Infinite scroll</li>
+                        <li>Animation triggers</li>
+                        <li>Analytics tracking</li>
+                    </ul>
+                </div>
+
+                <ul class="demo-features">
+                    <li>90% less CPU usage</li>
+                    <li>Lazy image loading</li>
+                    <li>Scroll animations</li>
+                    <li>Performance comparison</li>
+                </ul>
+            </a>
+
+            <a href="./demos/4-combined/index.html" class="demo-card">
+                <div class="demo-icon">🚀</div>
+                <div class="difficulty advanced">Advanced</div>
+                <div class="demo-title">4. Combined Techniques</div>
+                <div class="demo-description">All optimization techniques working together</div>
+                
+                <div class="diagram diagram-combined">
+                    <div class="diagram-flow">
+                        <div class="diagram-step">⚡ Preload</div>
+                        <div class="diagram-arrow">+</div>
+                        <div class="diagram-step">🔮 Prefetch</div>
+                        <div class="diagram-arrow">+</div>
+                        <div class="diagram-step">📍 Observer</div>
+                    </div>
+                    <div class="performance-indicator">
+                        <span>🎯</span> Maximum Performance
+                    </div>
+                </div>
+                
+                <div class="definition">
+                    <h4>What is Combined Optimization?</h4>
+                    <p>A production-ready implementation using preload, prefetch, and Intersection Observer together for maximum performance gains.</p>
+                </div>
+
+                <div class="code-snippet">
+<span class="comment">// Complete optimization strategy</span>
+<span class="keyword">class</span> PerformanceOptimizer {
+  preloadCritical() { <span class="comment">/* ... */</span> }
+  prefetchNext() { <span class="comment">/* ... */</span> }
+  lazyLoad() { <span class="comment">/* ... */</span> }
+}
+                </div>
+
+                <div class="use-cases">
+                    <h4>Perfect for:</h4>
+                    <ul class="use-case-list">
+                        <li>E-commerce sites</li>
+                        <li>News portals</li>
+                        <li>Media galleries</li>
+                        <li>SPA applications</li>
+                    </ul>
+                </div>
+
+                <ul class="demo-features">
+                    <li>Complete optimization</li>
+                    <li>Real-world example</li>
+                    <li>Performance metrics</li>
+                    <li>Production ready</li>
+                </ul>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>
+                <a href="./theory/preload-prefetch.md">📚 Theory</a>
+                <a href="./SESSION_GUIDE.md">📋 Session Guide</a>
+                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">🔗 MDN Docs</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

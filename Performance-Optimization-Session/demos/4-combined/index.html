@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Techniques - Before vs After</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style">
+    <link rel="preload" href="https://picsum.photos/800/400?random=hero" as="image">
+    <link rel="preload" href="./styles.css" as="style">
+    
+    <link rel="stylesheet" href="./styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//picsum.photos">
+</head>
+<body>
+    <nav class="nav">
+        <a href="../3-intersection-observer/index.html">← Prev: Intersection Observer</a>
+        <h1>Combined Techniques: Before vs After</h1>
+        <a href="../../index.html">Back to Menu</a>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            <div class="intro-section">
+                <h2>All Optimization Techniques Combined</h2>
+                <p>See the dramatic difference when all performance optimization techniques work together. Scroll down in both sections to compare the loading experience.</p>
+            </div>
+
+            <div class="comparison-layout">
+                <!-- BEFORE - No Optimizations -->
+                <div class="demo-section unoptimized-section">
+                    <div class="section-header unoptimized-header">
+                        <h3>❌ Before: No Optimizations</h3>
+                        <p>Traditional loading without modern techniques</p>
+                        <div class="performance-badge unoptimized-badge">
+                            <span>Performance: </span>
+                            <span id="unoptimized-performance" class="performance-value">45%</span>
+                        </div>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="label">Load Time:</span>
+                            <span id="unoptimized-load-time" class="value unoptimized-value">0ms</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Images Loaded:</span>
+                            <span id="unoptimized-images" class="value">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Prefetched:</span>
+                            <span id="unoptimized-prefetched" class="value">0</span>
+                        </div>
+                    </div>
+
+                    <div class="scroll-container" id="unoptimized-container">
+                        <div class="scroll-hint unoptimized-hint">
+                            <span>👇 Scroll to see slow, unoptimized loading</span>
+                        </div>
+                        <div class="hero-section">
+                            <div class="hero-content">
+                                <h3>Slow Loading Hero</h3>
+                                <p>No preload = slower initial render</p>
+                            </div>
+                            <div class="hero-image">
+                                <img id="unoptimized-hero" data-src="https://picsum.photos/400/200?random=hero1" alt="Hero">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">🐌</span>
+                                    <span class="placeholder-text">Loading slowly...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="gallery-grid">
+                            <div class="gallery-item" data-index="1">
+                                <img data-src="https://picsum.photos/300/200?random=21" alt="Gallery 1" class="lazy-image">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">🖼️</span>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Image 1</h4>
+                                    <p>Loads all at once (inefficient)</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="2">
+                                <img data-src="https://picsum.photos/300/200?random=22" alt="Gallery 2" class="lazy-image">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">🖼️</span>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Image 2</h4>
+                                    <p>No lazy loading optimization</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="3">
+                                <img data-src="https://picsum.photos/300/200?random=23" alt="Gallery 3" class="lazy-image">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">🖼️</span>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Image 3</h4>
+                                    <p>Heavy network usage</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="4">
+                                <img data-src="https://picsum.photos/300/200?random=24" alt="Gallery 4" class="lazy-image">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">🖼️</span>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Image 4</h4>
+                                    <p>Slower user experience</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="navigation-cards">
+                            <div class="nav-card" data-page="about">
+                                <h4>About Page</h4>
+                                <p>No prefetch = slow navigation</p>
+                            </div>
+                            <div class="nav-card" data-page="products">
+                                <h4>Products Page</h4>
+                                <p>Resources load on click</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="performance-log-container">
+                        <h4>Performance Issues</h4>
+                        <div id="unoptimized-log" class="performance-log">
+                            <div class="log-entry">❌ No preload: Critical resources loading slowly</div>
+                            <div class="log-entry">❌ No prefetch: Navigation will be slow</div>
+                            <div class="log-entry">❌ No lazy loading: All images loading at once</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AFTER - All Optimizations -->
+                <div class="demo-section optimized-section">
+                    <div class="section-header optimized-header">
+                        <h3>✅ After: All Optimizations</h3>
+                        <p>Modern performance techniques working together</p>
+                        <div class="performance-badge optimized-badge">
+                            <span>Performance: </span>
+                            <span id="optimized-performance" class="performance-value">100%</span>
+                        </div>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="label">Load Time:</span>
+                            <span id="optimized-load-time" class="value optimized-value">0ms</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Images Loaded:</span>
+                            <span id="optimized-images" class="value">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Prefetched:</span>
+                            <span id="optimized-prefetched" class="value">0</span>
+                        </div>
+                    </div>
+
+                    <div class="scroll-container" id="optimized-container">
+                        <div class="scroll-hint optimized-hint">
+                            <span>👇 Scroll to see fast, optimized loading</span>
+                        </div>
+                        <div class="hero-section">
+                            <div class="hero-content">
+                                <h3>Fast Loading Hero</h3>
+                                <p>Preloaded for instant render</p>
+                            </div>
+                            <div class="hero-image">
+                                <img id="optimized-hero" data-src="https://picsum.photos/400/200?random=hero2" alt="Hero">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">⚡</span>
+                                    <span class="placeholder-text">Loading fast...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="gallery-grid">
+                            <div class="gallery-item" data-index="1">
+                                <img data-src="https://picsum.photos/300/200?random=31" alt="Gallery 1" class="lazy-image">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">🖼️</span>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Image 1</h4>
+                                    <p>Lazy loaded efficiently</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="2">
+                                <img data-src="https://picsum.photos/300/200?random=32" alt="Gallery 2" class="lazy-image">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">🖼️</span>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Image 2</h4>
+                                    <p>Intersection Observer optimized</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="3">
+                                <img data-src="https://picsum.photos/300/200?random=33" alt="Gallery 3" class="lazy-image">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">🖼️</span>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Image 3</h4>
+                                    <p>Minimal network usage</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="4">
+                                <img data-src="https://picsum.photos/300/200?random=34" alt="Gallery 4" class="lazy-image">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">🖼️</span>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Image 4</h4>
+                                    <p>Smooth user experience</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="navigation-cards">
+                            <div class="nav-card prefetchable" data-page="about">
+                                <h4>About Page</h4>
+                                <p>Hover to prefetch!</p>
+                            </div>
+                            <div class="nav-card prefetchable" data-page="products">
+                                <h4>Products Page</h4>
+                                <p>Instant navigation ready</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="performance-log-container">
+                        <h4>Performance Benefits</h4>
+                        <div id="optimized-log" class="performance-log">
+                            <div class="log-entry">✅ Preload: Critical resources loading instantly</div>
+                            <div class="log-entry">✅ Prefetch: Future pages ready on hover</div>
+                            <div class="log-entry">✅ Intersection Observer: Efficient lazy loading</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h3>📊 Performance Impact Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-metric">70%</div>
+                        <div class="summary-label">Faster Load Times</div>
+                        <div class="summary-technique">Preload + Prefetch</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-metric">90%</div>
+                        <div class="summary-label">Fewer Network Requests</div>
+                        <div class="summary-technique">Lazy Loading</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-metric">95%</div>
+                        <div class="summary-label">Better Scroll Performance</div>
+                        <div class="summary-technique">Intersection Observer</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-metric">60%</div>
+                        <div class="summary-label">Lower Memory Usage</div>
+                        <div class="summary-technique">Combined Techniques</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="./script.js"></script>
+</body>
+</html>

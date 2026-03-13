@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intersection Observer vs Scroll Events - Performance Comparison</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav">
+        <a href="../2-prefetch/index.html">← Prev: Prefetch</a>
+        <h1>Intersection Observer vs Scroll Events</h1>
+        <a href="../4-combined/index.html">Next: Combined →</a>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            <div class="intro-section">
+                <h2>Performance Comparison: Side by Side</h2>
+                <p>Scroll down in both sections to see the dramatic performance difference between traditional scroll events and modern Intersection Observer API.</p>
+                
+                <div class="educational-content">
+                    <div class="definition-section">
+                        <h3>📚 What is Intersection Observer?</h3>
+                        <p>The Intersection Observer API provides a way to asynchronously observe changes in the intersection of a target element with an ancestor element or with a top-level document's viewport. It's designed to replace expensive scroll event listeners for viewport-based functionality.</p>
+                    </div>
+                    
+                    <div class="comparison-grid">
+                        <div class="concept-card scroll-events-card">
+                            <h4>❌ Traditional Scroll Events</h4>
+                            <div class="concept-example">
+                                <strong>Example:</strong>
+                                <pre><code>window.addEventListener('scroll', () => {
+  // Fires on EVERY scroll pixel!
+  elements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      loadImage(el); // Heavy operation
+    }
+  });
+});</code></pre>
+                            </div>
+                            <div class="concept-usage">
+                                <strong>Problems:</strong>
+                                <ul>
+                                    <li>Fires continuously during scroll</li>
+                                    <li>Requires manual viewport calculations</li>
+                                    <li>Blocks main thread execution</li>
+                                    <li>High CPU usage and battery drain</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="concept-card intersection-card">
+                            <h4>✅ Intersection Observer</h4>
+                            <div class="concept-example">
+                                <strong>Example:</strong>
+                                <pre><code>const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      loadImage(entry.target); // Efficient!
+      observer.unobserve(entry.target);
+    }
+  });
+});
+
+elements.forEach(el => observer.observe(el));</code></pre>
+                            </div>
+                            <div class="concept-usage">
+                                <strong>Benefits:</strong>
+                                <ul>
+                                    <li>Asynchronous, non-blocking operation</li>
+                                    <li>Browser-optimized calculations</li>
+                                    <li>Fires only when intersection changes</li>
+                                    <li>Minimal CPU usage and battery friendly</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="usage-section">
+                        <h3>🎯 Common Use Cases</h3>
+                        <div class="use-cases">
+                            <div class="use-case">
+                                <strong>Lazy Loading Images:</strong> Load images only when they enter the viewport
+                            </div>
+                            <div class="use-case">
+                                <strong>Infinite Scrolling:</strong> Load more content as user approaches the bottom
+                            </div>
+                            <div class="use-case">
+                                <strong>Animation Triggers:</strong> Start animations when elements become visible
+                            </div>
+                            <div class="use-case">
+                                <strong>Analytics Tracking:</strong> Track which content users actually see
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-layout">
+                <!-- BAD EXAMPLE - Scroll Events -->
+                <div class="demo-section bad-section">
+                    <div class="section-header bad-header">
+                        <h3>❌ Scroll Events (The Old Way)</h3>
+                        <p>Heavy processing on every scroll</p>
+                        <div class="performance-badge bad-badge">
+                            <span>Performance: </span>
+                            <span id="scroll-performance" class="performance-value">100%</span>
+                        </div>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="label">Scroll Events:</span>
+                            <span id="scroll-events-count" class="value bad-value">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Images Loaded:</span>
+                            <span id="scroll-images-loaded" class="value">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Avg Load Time:</span>
+                            <span id="scroll-load-time" class="value">0ms</span>
+                        </div>
+                    </div>
+
+                    <div class="scroll-container" id="scroll-container">
+                        <div class="scroll-hint">
+                            <span>👇 Scroll down to see scroll events in action</span>
+                        </div>
+                        <div class="gallery-grid">
+                            <div class="gallery-item" data-index="1">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=1" alt="Gallery 1" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 1</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Mountain Vista</h4>
+                                    <p>Loaded via scroll events</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="2">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=2" alt="Gallery 2" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 2</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Ocean Waves</h4>
+                                    <p>Loaded via scroll events</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="3">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=3" alt="Gallery 3" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 3</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Forest Path</h4>
+                                    <p>Loaded via scroll events</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="4">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=4" alt="Gallery 4" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 4</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>City Lights</h4>
+                                    <p>Loaded via scroll events</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="5">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=5" alt="Gallery 5" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 5</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Desert Sunset</h4>
+                                    <p>Loaded via scroll events</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="6">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=6" alt="Gallery 6" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 6</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Night Sky</h4>
+                                    <p>Loaded via scroll events</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="performance-log-container">
+                        <h4>Performance Log (Scroll Events)</h4>
+                        <div id="scroll-performance-log" class="performance-log">
+                            <div class="log-entry">Scroll events monitoring started...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GOOD EXAMPLE - Intersection Observer -->
+                <div class="demo-section good-section">
+                    <div class="section-header good-header">
+                        <h3>✅ Intersection Observer (The Modern Way)</h3>
+                        <p>Efficient, browser-optimized detection</p>
+                        <div class="performance-badge good-badge">
+                            <span>Performance: </span>
+                            <span id="observer-performance" class="performance-value">100%</span>
+                        </div>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="label">Scroll Events:</span>
+                            <span id="observer-events-count" class="value good-value">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Images Loaded:</span>
+                            <span id="observer-images-loaded" class="value">0</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Avg Load Time:</span>
+                            <span id="observer-load-time" class="value">0ms</span>
+                        </div>
+                    </div>
+
+                    <div class="scroll-container" id="observer-container">
+                        <div class="scroll-hint">
+                            <span>👇 Scroll down to see Intersection Observer efficiency</span>
+                        </div>
+                        <div class="gallery-grid">
+                            <div class="gallery-item" data-index="1">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=7" alt="Gallery 7" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 1</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Mountain Vista</h4>
+                                    <p>Loaded via Intersection Observer</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="2">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=8" alt="Gallery 8" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 2</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Ocean Waves</h4>
+                                    <p>Loaded via Intersection Observer</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="3">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=9" alt="Gallery 9" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 3</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Forest Path</h4>
+                                    <p>Loaded via Intersection Observer</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="4">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=10" alt="Gallery 10" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 4</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>City Lights</h4>
+                                    <p>Loaded via Intersection Observer</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="5">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=11" alt="Gallery 11" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 5</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Desert Sunset</h4>
+                                    <p>Loaded via Intersection Observer</p>
+                                </div>
+                            </div>
+
+                            <div class="gallery-item" data-index="6">
+                                <div class="image-container">
+                                    <img data-src="https://picsum.photos/300/200?random=12" alt="Gallery 12" class="lazy-image">
+                                    <div class="image-placeholder">
+                                        <span class="placeholder-icon">🖼️</span>
+                                        <span class="placeholder-text">Image 6</span>
+                                    </div>
+                                </div>
+                                <div class="image-info">
+                                    <h4>Night Sky</h4>
+                                    <p>Loaded via Intersection Observer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="performance-log-container">
+                        <h4>Performance Log (Intersection Observer)</h4>
+                        <div id="observer-performance-log" class="performance-log">
+                            <div class="log-entry">Intersection Observer monitoring started...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h3>📊 Performance Summary</h3>
+                <div class="summary-comparison">
+                    <div class="summary-bad">
+                        <h4>❌ Scroll Events Problems</h4>
+                        <ul>
+                            <li>Fires continuously during scroll</li>
+                            <li>Requires manual viewport calculations</li>
+                            <li>Blocks main thread execution</li>
+                            <li>High CPU usage on mobile devices</li>
+                            <li>Battery drain from constant processing</li>
+                        </ul>
+                    </div>
+                    <div class="summary-good">
+                        <h4>✅ Intersection Observer Benefits</h4>
+                        <ul>
+                            <li>Asynchronous, non-blocking operation</li>
+                            <li>Browser-optimized calculations</li>
+                            <li>Efficient threshold detection</li>
+                            <li>Minimal CPU usage and battery friendly</li>
+                            <li>Smooth, lag-free user experience</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="./script.js"></script>
+</body>
+</html>

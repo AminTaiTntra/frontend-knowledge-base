@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preload: Slow vs Fast Loading</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <nav class="nav">
+        <a href="../../index.html">← Back to Menu</a>
+        <h1>Preload: Slow vs Fast Loading</h1>
+        <a href="../2-prefetch/index.html">Next: Prefetch →</a>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            <div class="intro-section">
+                <h2>Preload Makes Things Load Faster</h2>
+                <p>See how preloading critical resources (fonts, images, CSS) makes your website load much faster. Compare both sides to see the difference!</p>
+            </div>
+
+            <div class="comparison-layout">
+                <!-- WITHOUT PRELOAD - Slow Loading -->
+                <div class="demo-section slow-section">
+                    <div class="section-header slow-header">
+                        <h3>❌ Without Preload (Slow)</h3>
+                        <p>Resources load one by one, causing delays</p>
+                        <div class="performance-badge slow-badge">
+                            <span>Speed: </span>
+                            <span id="slow-speed" class="performance-value">Slow</span>
+                        </div>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="label">Load Time:</span>
+                            <span id="slow-load-time" class="value slow-value">0ms</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Font Flash:</span>
+                            <span id="slow-font-flash" class="value">Yes</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Layout Jumps:</span>
+                            <span id="slow-layout-shifts" class="value">0</span>
+                        </div>
+                    </div>
+
+                    <div class="demo-container" id="slow-container">
+                        <div class="demo-hint slow-hint">
+                            <span>👀 Watch for slow loading and text flashing</span>
+                        </div>
+
+                        <div class="hero-section">
+                            <h3 class="demo-title slow-font">Slow Loading Website</h3>
+                            <p class="demo-text slow-font">This text will flash because the font loads slowly. You'll see the text change appearance when the font finally loads.</p>
+                            
+                            <div class="image-container">
+                                <img id="slow-hero-img" data-src="https://picsum.photos/400/200?random=hero1" alt="Hero Image">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">🐌</span>
+                                    <span class="placeholder-text">Loading slowly...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h4 class="slow-font">Why This Is Slow:</h4>
+                            <ul class="slow-font">
+                                <li>Browser finds font link in CSS</li>
+                                <li>Font downloads after CSS loads</li>
+                                <li>Text shows in fallback font first</li>
+                                <li>Text "flashes" when real font loads</li>
+                                <li>Images load after HTML is parsed</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="performance-log-container">
+                        <h4>What's Happening (Slow)</h4>
+                        <div id="slow-log" class="performance-log">
+                            <div class="log-entry">❌ No preload: Resources loading one by one</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WITH PRELOAD - Fast Loading -->
+                <div class="demo-section fast-section">
+                    <div class="section-header fast-header">
+                        <h3>✅ With Preload (Fast)</h3>
+                        <p>Resources load immediately, no delays</p>
+                        <div class="performance-badge fast-badge">
+                            <span>Speed: </span>
+                            <span id="fast-speed" class="performance-value">Fast</span>
+                        </div>
+                    </div>
+
+                    <div class="metrics-panel">
+                        <div class="metric">
+                            <span class="label">Load Time:</span>
+                            <span id="fast-load-time" class="value fast-value">0ms</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Font Flash:</span>
+                            <span id="fast-font-flash" class="value">No</span>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Layout Jumps:</span>
+                            <span id="fast-layout-shifts" class="value">0</span>
+                        </div>
+                    </div>
+
+                    <div class="demo-container" id="fast-container">
+                        <div class="demo-hint fast-hint">
+                            <span>👀 Watch for smooth, fast loading</span>
+                        </div>
+
+                        <div class="hero-section">
+                            <h3 class="demo-title fast-font">Fast Loading Website</h3>
+                            <p class="demo-text fast-font">This text loads smoothly because the font was preloaded. No flashing, no waiting - just smooth, professional loading.</p>
+                            
+                            <div class="image-container">
+                                <img id="fast-hero-img" data-src="https://picsum.photos/400/200?random=hero2" alt="Hero Image">
+                                <div class="image-placeholder">
+                                    <span class="placeholder-icon">⚡</span>
+                                    <span class="placeholder-text">Loading fast...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h4 class="fast-font">Why This Is Fast:</h4>
+                            <ul class="fast-font">
+                                <li>Font starts downloading immediately</li>
+                                <li>Ready when CSS needs it</li>
+                                <li>Text appears in correct font instantly</li>
+                                <li>No flashing or layout jumps</li>
+                                <li>Images preloaded for instant display</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="performance-log-container">
+                        <h4>What's Happening (Fast)</h4>
+                        <div id="fast-log" class="performance-log">
+                            <div class="log-entry">✅ Preload: Critical resources loading instantly</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-section">
+                <h3>📊 Preload Benefits</h3>
+                <div class="summary-comparison">
+                    <div class="summary-slow">
+                        <h4>❌ Without Preload Problems</h4>
+                        <ul>
+                            <li>Text flashes when fonts load</li>
+                            <li>Images appear after delay</li>
+                            <li>Page layout jumps around</li>
+                            <li>Users see broken-looking content</li>
+                            <li>Slower perceived performance</li>
+                        </ul>
+                    </div>
+                    <div class="summary-fast">
+                        <h4>✅ With Preload Benefits</h4>
+                        <ul>
+                            <li>Smooth text rendering from start</li>
+                            <li>Images appear instantly</li>
+                            <li>Stable page layout</li>
+                            <li>Professional user experience</li>
+                            <li>Much faster perceived performance</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="code-example">
+                    <h4>💡 How to Use Preload</h4>
+                    <pre><code>&lt;!-- Add these to your &lt;head&gt; --&gt;
+&lt;link rel="preload" href="font.woff2" as="font"&gt;
+&lt;link rel="preload" href="hero.jpg" as="image"&gt;
+&lt;link rel="preload" href="critical.css" as="style"&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="./script.js"></script>
+</body>
+</html>
